@@ -52,9 +52,9 @@ class AWSAppSyncClient extends ApolloClient {
             conflictResolver,
         );
 
-        const cache = disableOffline
-            ? ownCache ? ownCache : new InMemoryCache()
-            : ownCache ? ownCache : new OfflineCache(store);
+        const cache = ownCache ? ownCache
+            : disableOffline ? new InMemoryCache()
+            : new OfflineCache(store);
 
         const passthrough = (op, forward) => (forward ? forward(op) : Observable.of());
         let link = ownLink ? ownLink : ApolloLink.from([
